@@ -15,7 +15,6 @@ class Citizen(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
-    password = models.CharField(max_length=100)
     id_number = models.CharField(max_length=50)
     gender = models.CharField(max_length=5, choices=GENDER_CHOICES)
 
@@ -64,3 +63,8 @@ class Order(models.Model):
         on_delete=models.CASCADE,
         related_name='order_customer'
     )
+
+    def __str__(self):
+        return '{}-{}'.format(self.customer.first_name, self.amount)
+
+# Many to Many Relationships
