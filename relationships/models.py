@@ -15,7 +15,7 @@ class Citizen(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
-    id_number = models.CharField(max_length=50)
+    id_number = models.CharField(max_length=50, unique=True)
     gender = models.CharField(max_length=5, choices=GENDER_CHOICES)
 
     def __str__(self):
@@ -54,7 +54,7 @@ class Customer(models.Model):
 
 class Order(models.Model):
     """
-    Model to store
+    Model to store order details
     """
     order_number = models.CharField(max_length=100, unique=True)
     amount = models.IntegerField()
@@ -67,4 +67,32 @@ class Order(models.Model):
     def __str__(self):
         return '{}-{}'.format(self.customer.first_name, self.amount)
 
+
 # Many to Many Relationships
+class Subject(models.Model):
+    """
+    Model to store subject details
+    """
+    subject_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.subject_name
+
+class Student(models.Model):
+    """
+    Model to store student details
+    """
+    student_number = models.CharField(max_length=50, unique=True)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+
+    subjects = models.ManyToManyField(
+        Subject,
+        related_name='subject_students'
+    )
+
+    def __str__(self):
+        return '{}: {}'.format(self.first_name, self.student_number)
+
+
+
