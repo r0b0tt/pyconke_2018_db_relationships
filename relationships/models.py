@@ -29,7 +29,8 @@ class Passport(models.Model):
     """
     passport_holder = models.OneToOneField(
         Citizen,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='passport_citizen'
     )
     passport_number = models.CharField(max_length=100)
     date_issued = models.DateField(auto_now=True)
@@ -44,5 +45,22 @@ class Customer(models.Model):
     """
     Model to store customer details
     """
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField()
+
+    def __str__(self):
+        return '{} {}'.format(self.first_name, self.last_name)
 
 
+class Order(models.Model):
+    """
+    Model to store
+    """
+    order_number = models.CharField(max_length=100, unique=True)
+    amount = models.IntegerField()
+    customer = models.ForeignKey(
+        Customer,
+        on_delete=models.CASCADE,
+        related_name='order_customer'
+    )
